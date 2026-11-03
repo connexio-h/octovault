@@ -39,7 +39,7 @@ updates:
       prefix: chore
       include: scope
 
-  # GitHub Actions — 주 1회
+  # GitHub Actions — 주 1회. 워크플로가 메이저 태그(@v4)로 고정돼 있어 메이저는 직접 올린다
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
@@ -52,6 +52,9 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: ci
       include: scope
