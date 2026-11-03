@@ -1,0 +1,57 @@
+version: 2
+
+# 정책: devops-runbook/_platform/dependabot.md
+updates:
+  # Go — 일반 업데이트는 끄고 보안 PR 만 묶어서 받는다
+  - package-ecosystem: gomod
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "10:00"
+      timezone: Asia/Seoul
+    open-pull-requests-limit: 0
+    groups:
+      gomod-security:
+        applies-to: security-updates
+        patterns: ["*"]
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # 컨테이너 베이스 이미지 — 주 1회, 메이저 버전은 직접 올린다
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "10:00"
+      timezone: Asia/Seoul
+    cooldown:
+      default-days: 7
+    groups:
+      base-images:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # GitHub Actions — 주 1회
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "10:00"
+      timezone: Asia/Seoul
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+      include: scope
