@@ -39,7 +39,8 @@ updates:
       prefix: chore
       include: scope
 
-  # GitHub Actions — 주 1회. 워크플로가 메이저 태그(@v4)로 고정돼 있어 메이저는 직접 올린다
+  # GitHub Actions — 주 1회. 워크플로가 메이저 태그(@v4)로 고정돼 있어 업데이트는 메이저 bump 로 온다.
+  # 메이저를 ignore 하면 PR 이 0건이 되므로 막지 않고, 묶음 PR 리뷰에서 판단한다
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
@@ -52,9 +53,6 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: ci
       include: scope
